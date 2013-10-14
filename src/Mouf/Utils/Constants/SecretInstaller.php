@@ -5,7 +5,7 @@
  * See the file LICENSE.txt for copying permission.
  */
 
-namespace Mouf\Utils\Log\Psr;
+namespace Mouf\Utils\Constants;
 
 use Mouf\Installer\PackageInstallerInterface;
 use Mouf\MoufManager;
@@ -20,9 +20,29 @@ class SecretInstaller implements PackageInstallerInterface {
 	 * @see \Mouf\Installer\PackageInstallerInterface::install()
 	 */
 	public static function install(MoufManager $moufManager) {
-		// TODO
+		$configManager = $moufManager->getConfigManager();
+		
+		$constants = $configManager->getMergedConstants();
+		
+		if (!isset($constants['SECRET'])) {
+			$configManager->registerConstant("SECRET", "string", self::generateRandomString(), "A random string. It should be different for any application deployed.");
+		}
+		
+		$configPhpConstants = $configManager->getDefinedConstants();
+		$configPhpConstants['SECRET'] = self::generateRandomString();
+		$configManager->setDefinedConstants($configPhpConstants);
 		
 		// Let's rewrite the MoufComponents.php file to save the component
 		$moufManager->rewriteMouf();
 	}
+	
+	private static function generateRandomString($length = 20) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, strlen($characters) - 1)];
+		}
+		return $randomString;
+	}
+	
 }
