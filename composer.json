@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Mouf\\Utils\\Common\\Constants\\": "src/"
+            "Mouf\\Utils\\Constants\\": "src/"
         }
     },
     "extra": {

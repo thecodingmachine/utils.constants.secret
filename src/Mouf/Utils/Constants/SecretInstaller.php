@@ -4,7 +4,6 @@
  * 
  * See the file LICENSE.txt for copying permission.
  */
-
 namespace Mouf\Utils\Constants;
 
 use Mouf\Installer\PackageInstallerInterface;
